@@ -1,4 +1,4 @@
-passes = File.read('day5-input').split
+passes = File.read('inputs/day05').split
 ids = passes.map { |s| s.tr('FBLR', '0101').to_i(2) }
 puts ids.max
 

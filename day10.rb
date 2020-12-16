@@ -1,4 +1,4 @@
-joltages = [0] + File.read('day10-input').split.map(&:to_i).sort
+joltages = [0] + File.read('inputs/day10').split.map(&:to_i).sort
 
 diffs = joltages.map.with_index { |j, i|
   (joltages[i + 1] || joltages.last + 3) - j

@@ -1,4 +1,4 @@
-MAP = File.read('day3-input').split
+MAP = File.read('inputs/day03').split
 HEIGHT = MAP.length
 WIDTH = MAP[0].length
 

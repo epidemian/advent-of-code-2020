@@ -1,4 +1,4 @@
-instructions = File.read('day12-input').split.map { |l|
+instructions = File.read('inputs/day12').split.map { |l|
   l =~ /(\w)(\d+)/
   [$1.to_sym, $2.to_i]
 }

@@ -1,5 +1,5 @@
 N = 25
-nums = File.read('day9-input').split.map(&:to_i)
+nums = File.read('inputs/day09').split.map(&:to_i)
 
 invalid_num = nums.drop(N).find.with_index { |num, i|
   nums[i...i + N].combination(2).none? { |a, b| a + b == num }

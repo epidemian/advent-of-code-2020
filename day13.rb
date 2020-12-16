@@ -1,4 +1,4 @@
-line_1, line_2 = File.read('day13-input').split
+line_1, line_2 = File.read('inputs/day13').split
 start_time = line_1.to_i
 bus_ids = line_2.split(',').map{ |c, i| c.to_i if c != 'x' }
 

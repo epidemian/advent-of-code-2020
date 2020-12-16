@@ -1,6 +1,6 @@
 at_exit do
   char_to_sym = {'.' => :floor, 'L' => :empty, '#' => :occupied}
-  grid = File.read('day11-input').split.map { |l| l.chars.map(&char_to_sym) }
+  grid = File.read('inputs/day11').split.map { |l| l.chars.map(&char_to_sym) }
 
   stable_grid_1 = simulate_till_stable(grid,
     count_occupied: method(:adjacents_occupied),

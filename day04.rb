@@ -1,4 +1,4 @@
-passports = File.read('day4-input')
+passports = File.read('inputs/day04')
   .split("\n\n")
   .map { |p| p.split.map{ |f| f.split(':') }.to_h }
 
