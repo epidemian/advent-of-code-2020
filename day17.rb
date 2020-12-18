@@ -1,126 +1,109 @@
-require 'set'
+at_exit do
+  n_cycles = 6
+  str = File.read('inputs/day17')
+  grid_3d = Grid.parse(str, 3)
+  grid_4d = Grid.parse(str, 4)
 
-s = File.read('inputs/day17')
-
-def make_grid
-  Hash.new { |h, x| h[x] = Hash.new { |h, y| h[y] = {} } }
+  puts grid_3d.simulate_cycles(n_cycles).active_count
+  puts grid_4d.simulate_cycles(n_cycles).active_count
 end
 
-lines = s.split
-
-grid = make_grid
-lines.each_with_index do |line, y|
-  line.chars.each_with_index do |ch, x|
-    grid[x][y][0] = true if ch == '#'
+class Grid
+  def self.parse(str, n_dim)
+    grid = new(n_dim)
+    zeroes = [0] * (n_dim - 2)
+    str.split.each_with_index do |line, y|
+      line.chars.each_with_index do |ch, x|
+        grid.active!(x, y, *zeroes) if ch == '#'
+      end
+    end
+    grid
   end
-end
 
-x_min, x_max = 0, lines.first.size
-y_min, y_max = 0, lines.size
-z_min, z_max = 0, 0
+  def self.new(n_dim)
+    if n_dim == 0
+      Grid0.new
+    else
+      super
+    end
+  end
 
-def count_active_neighbors(grid, x, y, z)
-  count = 0
-  (x - 1 .. x + 1).each do |ix|
-    (y - 1 .. y + 1).each do |iy|
-      (z - 1 .. z + 1).each do |iz|
-        count += 1 if grid[ix][iy][iz] && !(ix == x && iy == y && iz == z)
+  def initialize(n_dim)
+    @n_dim = n_dim
+    @subgrids = {}
+  end
+
+  def simulate_cycles(n_cycles)
+    if n_cycles.zero?
+      self
+    else
+      next_grid.simulate_cycles(n_cycles - 1)
+    end
+  end
+
+  def active?(n, *rest)
+    @subgrids[n] && @subgrids[n].active?(*rest)
+  end
+
+  def active!(n, *rest)
+    (@subgrids[n] ||= Grid.new(@n_dim - 1)).active!(*rest)
+  end
+
+  def next_grid
+    next_grid = Grid.new(@n_dim)
+    each_possible_next_cube do |coords|
+      active_neighbors = count_active_neighbors(*coords)
+      if active?(*coords)
+        # Note: active_neighbors includes cube at these coordinates.
+        next_active = (active_neighbors - 1).between?(2, 3)
+      else
+        next_active = active_neighbors == 3
+      end
+      if next_active
+        next_grid.active!(*coords)
+      end
+    end
+    next_grid
+  end
+
+  def each_possible_next_cube
+    @subgrids.each do |n, subgrid|
+      subgrid.each_possible_next_cube do |coords|
+        yield [n - 1, *coords]
+        yield [n, *coords]
+        yield [n + 1, *coords]
       end
     end
   end
-  count
-end
 
-active_count = 0
-6.times do
-  next_grid = make_grid
-  active_count = 0
-  (x_min - 1 .. x_max + 1).each do |x|
-    (y_min - 1 .. y_max + 1).each do |y|
-      (z_min - 1 .. z_max + 1).each do |z|
-        is_active = grid[x][y][z]
-        active_neighbors = count_active_neighbors(grid, x, y, z)
-        if is_active
-          next_active = active_neighbors.between?(2, 3)
-        else
-          next_active = active_neighbors == 3
-        end
-        if next_active
-          next_grid[x][y][z] = true
-          active_count += 1
-          x_min, x_max = [x_min, x_max, x].minmax
-          y_min, y_max = [y_min, y_max, y].minmax
-          z_min, z_max = [z_min, z_max, z].minmax
-        end
-      end
-    end
+  def count_active_neighbors(n, *rest)
+    @subgrids[n - 1]&.count_active_neighbors(*rest).to_i +
+    @subgrids[n]&.count_active_neighbors(*rest).to_i +
+    @subgrids[n + 1]&.count_active_neighbors(*rest).to_i
   end
-  grid = next_grid
-end
 
-puts active_count
-
-# Part 2
-
-def make_grid_2
-  Hash.new { |h, x| h[x] = Hash.new { |h, y| h[y] = Hash.new { |h, z| h[z] = {} } } }
-end
-
-lines = s.split
-
-grid = make_grid_2
-lines.each_with_index do |line, y|
-  line.chars.each_with_index do |ch, x|
-    grid[x][y][0][0] = true if ch == '#'
+  def active_count
+    @subgrids.each_value.sum(&:active_count)
   end
 end
 
-x_min, x_max = 0, lines.first.size
-y_min, y_max = 0, lines.size
-z_min, z_max = 0, 0
-w_min, w_max = 0, 0
-
-def count_active_neighbors_2(grid, x, y, z, w)
-  count = 0
-  (x - 1 .. x + 1).each do |ix|
-    (y - 1 .. y + 1).each do |iy|
-      (z - 1 .. z + 1).each do |iz|
-        (w - 1 .. w + 1).each do |iw|
-          count += 1 if grid[ix][iy][iz][iw] && !(ix == x && iy == y && iz == z && iw == w)
-        end
-      end
-    end
+class Grid0
+  def active!
   end
-  count
-end
 
-6.times do
-  next_grid = make_grid_2
-  active_count = 0
-  (x_min - 1 .. x_max + 1).each do |x|
-    (y_min - 1 .. y_max + 1).each do |y|
-      (z_min - 1 .. z_max + 1).each do |z|
-        (w_min - 1 .. w_max + 1).each do |w|
-          is_active = grid[x][y][z][w]
-          active_neighbors = count_active_neighbors_2(grid, x, y, z, w)
-          if is_active
-            next_active = active_neighbors.between?(2, 3)
-          else
-            next_active = active_neighbors == 3
-          end
-          if next_active
-            next_grid[x][y][z][w] = true
-            active_count += 1
-            x_min, x_max = [x_min, x_max, x].minmax
-            y_min, y_max = [y_min, y_max, y].minmax
-            z_min, z_max = [z_min, z_max, z].minmax
-            w_min, w_max = [w_min, w_max, w].minmax
-          end
-        end
-      end
-    end
+  def each_possible_next_cube
+    yield
   end
-  grid = next_grid
-end
 
-puts active_count
+  def count_active_neighbors
+    1
+  end
+
+  def active?
+    true
+  end
+
+  def active_count
+    1
+  end
+end
