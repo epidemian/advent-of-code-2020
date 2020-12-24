@@ -21,3 +21,4 @@ My [Advent of Code 2020](https://adventofcode.com/2020/) solutions in Ruby.
 - Day 17: generalizing the solution to N dimensions was fun. The **object recursion pattern** was a nice fit to have n-dimensional grids delegate to (n-1)-dimensional grids and so on.
 - Day 18: cheesy `eval()` solution. Instead of actually parsing anything, Ruby allowed to override normal `+` and `*` behavior and evaluate the expressions as Ruby code.
 - Day 19: **Ruby regular expressions support recursion!** Part 1 could be mapped into a regex quite intuitively. Part 2, with its recursive rules, didn't look like it. But thankfully Ruby's regexes support recursive patterns, so the regex-based approach still worked :)
+- Day 20: part 1 was relatively easy due to some insight about the input data. Part 2 was a total PITA.
