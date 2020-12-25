@@ -1,7 +1,7 @@
 at_exit do
   tiles = File.read('inputs/day20').split("\n\n").map { |str|
     num = str[/Tile (\d+)/, 1].to_i
-    data = str.split("\n").drop(1)
+    data = str.lines.drop(1).map(&:strip)
     Tile.new(num, data)
   }
 

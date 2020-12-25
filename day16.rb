@@ -15,7 +15,7 @@ at_exit do
 end
 
 def parse_rules(s)
-  s.split("\n").map { |line|
+  s.lines.map { |line|
     field_name = line.split(':').first
     ranges = line.scan(/\d+-\d+/).map { |r|
       from, to = r.split('-').map(&:to_i)
@@ -27,7 +27,7 @@ def parse_rules(s)
 end
 
 def parse_tickets(s)
-  s.split("\n").drop(1).map { |line| line.split(',').map(&:to_i) }
+  s.lines.drop(1).map { |line| line.split(',').map(&:to_i) }
 end
 
 def ticket_scanning_error_rate(tickets, rules)

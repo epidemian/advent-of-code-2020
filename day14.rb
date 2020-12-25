@@ -1,4 +1,4 @@
-lines = File.read('inputs/day14').split("\n")
+lines = File.read('inputs/day14').lines
 
 mem = {}
 zeros_mask = 0

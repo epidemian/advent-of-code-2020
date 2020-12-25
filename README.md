@@ -23,7 +23,7 @@ My [Advent of Code 2020](https://adventofcode.com/2020/) solutions in Ruby.
 - Day 19: **Ruby regular expressions support recursion!** Part 1 could be mapped into a regex quite intuitively. Part 2, with its recursive rules, didn't look like it. But thankfully Ruby's regexes support recursive patterns, so the regex-based approach still worked :)
 - Day 20: part 1 was relatively easy due to some insight about the input data. Part 2 was a total PITA.
 - Day 21: a piece of cake compared to previous day!
-- Day 22: CPU-intensive challenge with *lots* of recursion! Using `map(&:shift)` should be illegal. Used a couple of optimizations to trim some time:
+- Day 22: CPU-intensive challenge with *lots* of recursion! Using `map(&:shift)` should be illegal. Learned about `String#lines`, a useful alternative to `str.split("\n")` for many of these. Also used a couple of optimizations to trim some time:
     - Using a `Set` instead of an array to remember previous rounds reduced the running time from almost 2 minutes to ~10 seconds.
     - Saving the previous rounds as marshalled values reduced the time from 10 to 3.5 seconds.
 

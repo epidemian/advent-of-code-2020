@@ -1,4 +1,4 @@
-lines = File.read('inputs/day02').split("\n")
+lines = File.read('inputs/day02').lines
 data = lines.map { |l| l.match(/(\d+)-(\d+) (\w): (\w+)/).to_a.drop(1) }
 
 puts data.count { |min, max, ch, pass|

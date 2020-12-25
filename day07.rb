@@ -1,6 +1,6 @@
 require 'ostruct'
 
-RULES = File.read('inputs/day07').split("\n").map { |r|
+RULES = File.read('inputs/day07').lines.map { |r|
   color, rest = r.split(' bags contain ')
   contents = rest.split(', ').grep(/(\d+) (\w+ \w+) bag/) {
     OpenStruct.new(count: $1.to_i, color: $2)

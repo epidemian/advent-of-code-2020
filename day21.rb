@@ -1,6 +1,6 @@
 Food = Struct.new(:ingredients, :allergens)
 
-foods = File.read('inputs/day21').split("\n").map { |line|
+foods = File.read('inputs/day21').lines.map { |line|
   ingredients = line[/(.*) \(/, 1].split
   allergens = line[/\(contains (.*)\)/, 1].split(', ')
   Food.new(ingredients, allergens)

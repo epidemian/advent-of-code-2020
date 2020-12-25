@@ -1,6 +1,6 @@
 require 'ostruct'
 
-program = File.read('inputs/day08').split("\n").map { |line|
+program = File.read('inputs/day08').lines.map { |line|
   op, arg = line.split
   [op.to_sym, arg.to_i]
 }

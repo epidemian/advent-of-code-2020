@@ -1,6 +1,6 @@
 rules_str, messages_str = File.read('inputs/day19').split("\n\n")
 
-rules = rules_str.split("\n").map { |l| l.split(':') }.to_h
+rules = rules_str.lines.map { |l| l.split(':') }.to_h
 messages = messages_str.split
 
 def create_rule_0_regex(rules)
