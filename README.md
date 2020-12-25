@@ -26,4 +26,4 @@ My [Advent of Code 2020](https://adventofcode.com/2020/) solutions in Ruby.
 - Day 22: CPU-intensive challenge with *lots* of recursion! Using `map(&:shift)` should be illegal. Learned about `String#lines`, a useful alternative to `str.split("\n")` for many of these. Also used a couple of optimizations to trim some time:
     - Using a `Set` instead of an array to remember previous rounds reduced the running time from almost 2 minutes to ~10 seconds.
     - Saving the previous rounds as marshalled values reduced the time from 10 to 3.5 seconds.
-
+- Day 23: initial solution for part 1 could not scale to part 2. Ended up using an array to keep the next of each cup, acting both as a sort of linked list and also as a direct-access dictionary.
