@@ -31,12 +31,12 @@ def play_recursive_combat(decks, recurring: false)
 
     cards_played = decks.map(&:shift)
     if cards_played.zip(decks).all? { |card, deck| card <= deck.size }
-      subdecks = decks.zip(cards_played).map { |deck, card| deck.take(card) }
+      subdecks = cards_played.zip(decks).map { |card, deck| deck.take(card) }
       round_winner = play_recursive_combat(subdecks, recurring: true)
     else
       round_winner = cards_played.index(cards_played.max)
     end
-    decks[round_winner] << cards_played[round_winner] << cards_played[round_winner - 1]
+    decks[round_winner].push(cards_played[round_winner], cards_played[round_winner - 1])
   end
 
   puts score(decks[round_winner]) unless recurring
