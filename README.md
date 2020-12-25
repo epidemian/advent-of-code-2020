@@ -28,3 +28,4 @@ My [Advent of Code 2020](https://adventofcode.com/2020/) solutions in Ruby.
     - Saving the previous rounds as marshalled values reduced the time from 10 to 3.5 seconds.
 - Day 23: initial solution for part 1 could not scale to part 2. Ended up using an array to keep the next of each cup, acting both as a sort of linked list and also as a direct-access dictionary.
 - Day 24: interesting hexagonal cellular automata. I didn't investigate if representing hex grid coordinates with whole numbers makes sense, nor did i take time to optimize the pretty inefficient solution.
+- Day 25: nice ending :)
