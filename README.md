@@ -23,3 +23,4 @@ My [Advent of Code 2020](https://adventofcode.com/2020/) solutions in Ruby.
 - Day 19: **Ruby regular expressions support recursion!** Part 1 could be mapped into a regex quite intuitively. Part 2, with its recursive rules, didn't look like it. But thankfully Ruby's regexes support recursive patterns, so the regex-based approach still worked :)
 - Day 20: part 1 was relatively easy due to some insight about the input data. Part 2 was a total PITA.
 - Day 21: a piece of cake compared to previous day!
+- Day 22: CPU-intensive recursion!
