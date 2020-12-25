@@ -25,8 +25,9 @@ def play_recursive_combat(decks, recurring: false)
   previous_rounds = Set.new
 
   while decks.none?(&:empty?)
-    return 0 if previous_rounds.include?(decks)
-    previous_rounds << decks.map(&:dup)
+    serialized = Marshal.dump(decks)
+    return 0 if previous_rounds.include?(serialized)
+    previous_rounds << serialized
 
     cards_played = decks.map(&:shift)
     if cards_played.zip(decks).all? { |card, deck| card <= deck.size }
